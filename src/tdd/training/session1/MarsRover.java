@@ -46,18 +46,28 @@ public class MarsRover {
 	 */
 	public String executeCommand(String command) {
 		char[] com = command.toCharArray();
-
-		forward(com);
-		limitController();
 		
-		if (com[0] == 'b') {
-			rover.yPos = 2;
+		for (int i = 0; i < com.length; i++) {
+			forward(com[i]);
+			backward(com[i]);
+			clockwise(com[i]);
+			counterclockwise(com[i]);
+			limitController();
 		}
 
-		clockwise(com);
-		counterclockwise(com);
-
 		return printResult();
+	}
+
+	private void backward(char com) {
+		if (com == 'b' && rover.face.equals("E")) {
+			rover.xPos--;
+		} else if (com == 'b' && rover.face.equals("W")) {
+			rover.xPos++;
+		} else if (com == 'b' && rover.face.equals("S")) {
+			rover.yPos++;
+		} else if (com == 'b' && rover.face.equals("N")) {
+			rover.yPos--;
+		}
 	}
 
 	private void limitController() {
@@ -67,34 +77,34 @@ public class MarsRover {
 		if (rover.xPos < 0) {
 			rover.xPos = x - 1;
 		}
-		if(rover.yPos >= y) {
+		if (rover.yPos >= y) {
 			rover.yPos = 0;
 		}
-		if(rover.xPos >= x) {
+		if (rover.xPos >= x) {
 			rover.xPos = 0;
 		}
 	}
 
-	private void forward(char[] com) {
-		if (com[0] == 'f' && rover.face.equals("W")) {
+	private void forward(char com) {
+		if (com == 'f' && rover.face.equals("W")) {
 			rover.xPos--;
-		} else if (com[0] == 'f' && rover.face.equals("S")) {
+		} else if (com == 'f' && rover.face.equals("S")) {
 			rover.yPos--;
-		} else if (com[0] == 'f' && rover.face.equals("E")) {
+		} else if (com == 'f' && rover.face.equals("E")) {
 			rover.xPos++;
-		} else if (com[0] == 'f') {
+		} else if (com == 'f') {
 			rover.yPos++;
 		}
 	}
 
-	private void counterclockwise(char[] com) {
-		if (com[0] == 'l' && rover.face.equals("W")) {
+	private void counterclockwise(char com) {
+		if (com == 'l' && rover.face.equals("W")) {
 			rover.face = "S";
-		} else if (com[0] == 'l' && rover.face.equals("S")) {
+		} else if (com == 'l' && rover.face.equals("S")) {
 			rover.face = "E";
-		} else if (com[0] == 'l' && rover.face.equals("E")) {
+		} else if (com == 'l' && rover.face.equals("E")) {
 			rover.face = "N";
-		} else if (com[0] == 'l') {
+		} else if (com == 'l') {
 			rover.face = "W";
 		}
 	}
@@ -103,14 +113,14 @@ public class MarsRover {
 		return "(" + rover.xPos + "," + rover.yPos + "," + rover.face + ")";
 	}
 
-	private void clockwise(char[] com) {
-		if (com[0] == 'r' && rover.face.equals("W")) {
+	private void clockwise(char com) {
+		if (com == 'r' && rover.face.equals("W")) {
 			rover.face = "N";
-		} else if (com[0] == 'r' && rover.face.equals("S")) {
+		} else if (com == 'r' && rover.face.equals("S")) {
 			rover.face = "W";
-		} else if (com[0] == 'r' && rover.face.equals("E")) {
+		} else if (com == 'r' && rover.face.equals("E")) {
 			rover.face = "S";
-		} else if (com[0] == 'r') {
+		} else if (com == 'r') {
 			rover.face = "E";
 		}
 	}
